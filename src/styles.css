@@ -42,6 +42,7 @@ body {
   min-height: 100vh;
   background: var(--bg);
   color: var(--text);
+  overflow-x: hidden;
 }
 
 button,
@@ -336,12 +337,14 @@ select.control {
 .screen-body {
   flex: 1;
   overflow: visible;
+  min-width: 0;
 }
 
 .screen-stack {
   display: grid;
   gap: 10px;
   padding: 0 10px 94px;
+  min-width: 0;
 }
 
 .panel {
@@ -349,6 +352,7 @@ select.control {
   border: 1px solid var(--line);
   border-radius: var(--radius);
   box-shadow: 0 1px 4px rgba(28, 47, 56, 0.06);
+  min-width: 0;
 }
 
 .panel-heading,
@@ -765,6 +769,7 @@ select.control {
   background-image:
     linear-gradient(to top, rgba(192, 205, 211, 0.52) 1px, transparent 1px);
   background-size: 100% 37px;
+  overflow: hidden;
 }
 
 .bar-cell {
@@ -935,8 +940,7 @@ select.control {
 
 .bottom-nav span {
   max-width: 100%;
-  overflow: hidden;
-  text-overflow: clip;
+  overflow: visible;
   white-space: nowrap;
 }
 
@@ -990,6 +994,7 @@ select.control {
 
 .table-wrap {
   overflow-x: auto;
+  overscroll-behavior-inline: contain;
 }
 
 table {
@@ -1089,6 +1094,14 @@ td {
     padding-inline: 16px;
   }
 
+  .app-shell.enumerator .app-frame {
+    width: min(100%, 820px);
+  }
+
+  .app-shell.enumerator .form-panel {
+    padding-inline: 14px;
+  }
+
   .app-shell.analyst .kpi-grid {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
@@ -1098,25 +1111,195 @@ td {
   }
 }
 
-@media (min-width: 980px) {
+@media (min-width: 960px) {
+  body {
+    background:
+      radial-gradient(circle at top left, rgba(0, 123, 128, 0.08), transparent 34vw),
+      var(--bg);
+  }
+
+  .app-shell {
+    align-items: stretch;
+    padding: 18px;
+  }
+
+  .app-frame,
+  .app-shell.enumerator .app-frame,
+  .app-shell.analyst .app-frame {
+    width: min(100%, 1280px);
+    min-height: calc(100vh - 36px);
+    display: grid;
+    grid-template-columns: 92px minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr);
+    border-radius: 18px;
+  }
+
+  .app-header {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: minmax(260px, auto) minmax(420px, 1fr);
+    align-items: end;
+  }
+
+  .phone-status {
+    display: none;
+  }
+
+  .brand-row {
+    height: 76px;
+    padding-inline: 24px;
+  }
+
+  .brand {
+    font-size: 26px;
+  }
+
+  .session-chip {
+    max-width: 240px;
+    font-size: 13px;
+  }
+
+  .scope-row {
+    align-self: stretch;
+    align-items: center;
+    grid-template-columns: minmax(280px, 520px) auto;
+    justify-content: end;
+    padding: 14px 24px;
+  }
+
+  .scope-row label > span {
+    font-size: 13px;
+  }
+
+  .screen-body {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+    overflow: auto;
+    min-height: 0;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.42), rgba(248, 251, 252, 0));
+  }
+
+  .screen-stack {
+    gap: 16px;
+    padding: 18px 22px 28px;
+  }
+
+  .bottom-nav {
+    position: static;
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+    grid-auto-flow: row;
+    grid-auto-columns: auto;
+    grid-template-columns: 1fr;
+    align-content: start;
+    gap: 8px;
+    min-height: 0;
+    padding: 18px 10px;
+    border-top: 0;
+    border-right: 1px solid var(--line);
+    background: rgba(255, 255, 255, 0.94);
+    box-shadow: none;
+  }
+
+  .bottom-nav button {
+    min-height: 68px;
+    border: 1px solid transparent;
+  }
+
+  .bottom-nav button.active {
+    background: var(--teal-soft);
+    border-color: rgba(0, 123, 128, 0.16);
+  }
+
+  .bottom-nav span {
+    font-size: 11px;
+  }
+
+  .toast {
+    bottom: 24px;
+    left: calc(50% + 46px);
+  }
+
+  .app-shell.enumerator .screen-stack {
+    grid-template-columns: minmax(520px, 0.95fr) minmax(300px, 0.55fr);
+    align-items: start;
+  }
+
+  .app-shell.enumerator .offline-banner {
+    grid-column: 1 / -1;
+    margin: 0;
+    border: 1px solid rgba(0, 123, 128, 0.2);
+    border-radius: var(--radius);
+  }
+
+  .app-shell.enumerator .form-panel,
+  .app-shell.enumerator .queue-panel {
+    grid-column: 1 / 2;
+  }
+
+  .app-shell.enumerator .compact-panel,
+  .app-shell.enumerator .progress-card {
+    grid-column: 2 / 3;
+    position: sticky;
+    top: 18px;
+  }
+
+  .app-shell.enumerator .progress-card + .queue-panel {
+    grid-column: 1 / -1;
+  }
+
   .app-shell.analyst .dashboard-stack {
-    grid-template-columns: minmax(0, 1fr) minmax(320px, 0.6fr);
+    grid-template-columns: minmax(0, 1fr) minmax(340px, 0.45fr);
     align-items: start;
   }
 
   .app-shell.analyst .filter-strip,
-  .app-shell.analyst .dashboard-section,
-  .app-shell.analyst .chart-panel {
+  .app-shell.analyst .dashboard-section {
     grid-column: 1 / -1;
+  }
+
+  .app-shell.analyst .chart-panel {
+    grid-column: 1 / 2;
   }
 
   .app-shell.analyst .split-panels {
     grid-column: 1 / 2;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .app-shell.analyst .panel:last-child {
+  .app-shell.analyst .dashboard-stack > .panel:last-child {
     grid-column: 2 / 3;
-    grid-row: 4 / 5;
+    grid-row: 3 / span 2;
+    position: sticky;
+    top: 18px;
+  }
+
+  .app-shell.analyst .filter-strip {
+    grid-template-columns: repeat(2, minmax(220px, 320px));
+    justify-content: end;
+    padding-top: 0;
+  }
+
+  .app-shell.analyst .stat-card {
+    min-height: 124px;
+  }
+
+  .app-shell.analyst .bar-chart {
+    height: 260px;
+    padding-inline: 22px;
+    background-size: 100% 48px;
+  }
+
+  .app-shell.analyst .bar-cell i {
+    width: min(100%, 44px);
+  }
+
+  .app-shell.analyst .map-panel {
+    height: 220px;
+  }
+
+  .app-shell.analyst .donut-row {
+    min-height: 146px;
   }
 }
 
